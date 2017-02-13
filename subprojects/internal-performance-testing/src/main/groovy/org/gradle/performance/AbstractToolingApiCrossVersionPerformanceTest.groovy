@@ -46,6 +46,7 @@ import org.gradle.performance.fixture.PerformanceTestGradleDistribution
 import org.gradle.performance.fixture.PerformanceTestJvmOptions
 import org.gradle.performance.fixture.TestProjectLocator
 import org.gradle.performance.fixture.TestScenarioSelector
+import org.gradle.performance.measure.MeasuredOperation
 import org.gradle.performance.results.BuildDisplayInfo
 import org.gradle.performance.results.CrossVersionPerformanceResults
 import org.gradle.performance.results.CrossVersionResultsStore
@@ -225,8 +226,14 @@ abstract class AbstractToolingApiCrossVersionPerformanceTest extends Specificati
                         experimentSpec.listener.beforeInvocation(info)
                     }
                     println "Run #${n + 1}"
-                    def measuredOperation = timer.measure {
-                        toolingApi.withConnection(action)
+                    def measuredOperation
+                    try {
+                        measuredOperation = timer.measure {
+                            toolingApi.withConnection(action)
+                        }
+                    } catch (Exception e) {
+                        measuredOperation = new MeasuredOperation()
+                        measuredOperation.exception = e
                     }
 
                     boolean omit = false
@@ -263,9 +270,15 @@ abstract class AbstractToolingApiCrossVersionPerformanceTest extends Specificati
                         experimentSpec.listener.beforeInvocation(info)
                     }
                     println "Warm-up #${n + 1}"
-                    toolingApi.withConnection(action)
+                    def operation = null
+                    try {
+                        toolingApi.withConnection(action)
+                    } catch (Exception e) {
+                        operation = new MeasuredOperation()
+                        operation.exception = e
+                    }
                     if (experimentSpec.listener) {
-                        experimentSpec.listener.afterInvocation(info, null, null)
+                        experimentSpec.listener.afterInvocation(info, operation, null)
                     }
                 }
             }
