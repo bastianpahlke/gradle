@@ -56,7 +56,7 @@ class CrossBuildPerformanceResults extends PerformanceTestResult {
         buildResult(matches.first())
     }
 
-    List<Exception> getFailures() {
+    List<Throwable> getFailures() {
         List.cast(buildResults.values().collect() {
             it.exception
         }.flatten().findAll())

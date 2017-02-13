@@ -231,7 +231,7 @@ abstract class AbstractToolingApiCrossVersionPerformanceTest extends Specificati
                         measuredOperation = timer.measure {
                             toolingApi.withConnection(action)
                         }
-                    } catch (Exception e) {
+                    } catch (Throwable e) {
                         measuredOperation = new MeasuredOperation()
                         measuredOperation.exception = e
                     }
@@ -273,7 +273,7 @@ abstract class AbstractToolingApiCrossVersionPerformanceTest extends Specificati
                     def operation = null
                     try {
                         toolingApi.withConnection(action)
-                    } catch (Exception e) {
+                    } catch (Throwable e) {
                         operation = new MeasuredOperation()
                         operation.exception = e
                     }

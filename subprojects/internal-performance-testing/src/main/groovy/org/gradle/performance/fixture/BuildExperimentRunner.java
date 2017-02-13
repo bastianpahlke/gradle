@@ -193,7 +193,7 @@ public class BuildExperimentRunner {
         MeasuredOperation operation = new MeasuredOperation();
         try {
             runner.execute(operation);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             operation.setException(e);
         }
 

@@ -28,7 +28,7 @@ public class MeasuredOperation {
     Amount<Duration> totalTime
     Amount<Duration> configurationTime = Duration.millis(0)
     Amount<Duration> executionTime = Duration.millis(0)
-    Exception exception
+    Throwable exception
     /** The non-collectable heap usage at the end of the build. This was the original metric used */
     Amount<DataAmount> totalMemoryUsed = DataAmount.bytes(0)
     /** The total amount of heap used over the life of the operation. Does not include the perm gen. */

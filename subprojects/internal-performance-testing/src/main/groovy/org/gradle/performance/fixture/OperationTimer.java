@@ -29,7 +29,7 @@ public class OperationTimer {
                     action.execute(result);
                 }
             });
-        } catch (Exception e) {
+        } catch (Throwable e) {
             result.setException(e);
         }
         return result;
